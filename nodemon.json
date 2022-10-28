@@ -1,0 +1,5 @@
+{
+    "watch": ["server.js", "src/"],
+    "ext": "js, json"
+    // reload server when file of .js, .json change
+}
