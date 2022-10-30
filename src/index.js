@@ -10,11 +10,19 @@ const morgan = require('morgan');
 const exphbs = require("express-handlebars");
 const { engine } = require("express-handlebars");
 
+const route = require('./routes/index');
+
 // Set localtion to start every url
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware handle data from form 
+app.use(express.urlencoded({extended: true}));
+// Middleware handle data from .js 
+app.use(express.json());
+
+
 // HTTP logger
-app.use(morgan("combined"));
+// app.use(morgan("combined"));
 
 // handlebars, set address for views
 app.engine('.hbs', engine({
@@ -24,13 +32,8 @@ app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
 
 
-// app
-app.get("/", (req, res) => {
-    res.render("home");
-});
+// Routes init
+route(app);
 
-app.get("/news", (req, res) => {
-    res.render("news");
-});
 
 app.listen(3000);
