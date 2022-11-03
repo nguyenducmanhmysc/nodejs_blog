@@ -3,6 +3,8 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 const morgan = require('morgan');
 
@@ -27,12 +29,15 @@ app.engine(
     '.hbs',
     engine({
         extname: '.hbs',
+        helpers: {
+            sum: (a, b) => a + b,
+        },
     }),
 );
 
 // reset address for "views"
 app.set('view engine', '.hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+app.set('views', path.join(__dirname, 'resources', 'views'));
 
 // connect to database
 const DB = require('./config/db/index');
